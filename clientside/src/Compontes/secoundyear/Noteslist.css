@@ -1,0 +1,29 @@
+* {
+  flex: 1;
+}
+.files-name {
+  width: 100%;
+}
+.notesfile-container {
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  /*text-align: left;*/
+  background-color: grey;
+  color: white;
+  text-align: center;
+}
+td {
+  padding: 8;
+  border: 1 solid #ddd;
+}
+tr:nth-child() {
+  background-color: #f2f2f2;
+}
+tr:hover {
+  background-color: #ddd;
+}
