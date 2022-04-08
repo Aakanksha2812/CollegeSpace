@@ -15,6 +15,7 @@ import Notes from "./Compontes/secoundyear/Notes";
 import NotesList from "./Compontes/secoundyear/NotesList";
 import Syllabus from "./Compontes/secoundyear/Syllabus";
 import Timetable from "./Compontes/secoundyear/Timetable";
+import Timetablelist from "./Compontes/secoundyear/Timetablelist";
 function App() {
   return (
     <div className="App">
@@ -33,6 +34,7 @@ function App() {
           <Route exact path="/noteslist" component={NotesList}></Route>
           <Route exact path="/syllabus" component={Syllabus}></Route>
           <Route exact path="/timetable" component={Timetable}></Route>
+          <Route exact path="/timetablelist" component={Timetablelist}></Route>
         </Switch>
       </BrowserRouter>
       <Footer />

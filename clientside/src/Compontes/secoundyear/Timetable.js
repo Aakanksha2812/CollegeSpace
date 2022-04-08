@@ -1,165 +1,12 @@
 import React from "react";
 import Dropzone from "react-dropzone";
-import { useState, useRef } from "react";
-import { Form, Col, Row, Button } from "react-bootstrap";
-import axios from "axios";
-import { API_URL } from "../../utlis/constants";
-const Timetable = (props) => {
-  const [state, setState] = useState({
-    title: "",
-    description: "",
-  });
-  const [file, setFile] = useState(null);
-  const [previewSrc, setPreviewSrc] = useState("");
-  const [isPreviewAvailable, setIsPreviewAvailable] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-  const handleinputchange = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
-  };
-  const dropRef = useRef;
-  const onDrop = (files) => {
-    const [uploadedFile] = files;
-    setFile(uploadedFile);
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      setPreviewSrc(fileReader.result);
-    };
-    fileReader.readAsDataURL(uploadedFile);
-    setIsPreviewAvailable(uploadedFile.name.match(/\.(jpeg|jpg|png)$/));
-    dropRef.current.style.border = "2px dashed #e9ebeb";
-  };
-  const UpdateBorder = (dragState) => {
-    if (dragState === "over") {
-      dropRef.current.style.border = "2px solid #000";
-    } else if (dragState === "leave") {
-      dropRef.current.style.border = "2px dashed #e9ebeb";
-    }
-  };
-  const handlesubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { title, description } = state;
-      if (title.trim !== "" && description.trim !== "") {
-        if (file) {
-          const formData = new FormData();
-          formData.append("file", file);
-          formData.append("title", title);
-          formData.append("description", description);
-          setErrorMsg("");
-          await axios.post(`${API_URL}/upload3`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-          props.history.push("./");
-        } else {
-          setErrorMsg("Please add file ");
-        }
-      } else {
-        setErrorMsg("Please enter all the field value ");
-      }
-    } catch (error) {
-      error.response && setErrorMsg(error.response.data);
-    }
-  };
-  return (
-    <div>
-      <Form className="search-form ttform" onSubmit={handlesubmit}>
-        {errorMsg && <p className="errorMsg">{errorMsg}</p>}
-        <Row>
-          <Col>
-            <Form.Group controlId="title">
-              <Form.Control
-                type="text"
-                name="title"
-                placeholder="enter title"
-                value={state.title}
-                onChange={handleinputchange}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <br />
-        <Row>
-          <Col>
-            <Form.Group controlId="description">
-              <Form.Control
-                type="text"
-                name="description"
-                value={state.description}
-                onChange={handleinputchange}
-                placeholder="enter description"
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <br />
-        <div className="uploadsection">
-          <Dropzone
-            onDrop={onDrop}
-            onDragEnter={() => UpdateBorder("over")}
-            onDragLeave={() => UpdateBorder("leave")}
-          >
-            {({ getRootProps, getInputProps }) => (
-              <div {...getRootProps({ className: "drop-zone" })} ref={dropRef}>
-                <input {...getInputProps()} />
-                <p>Drag and Drop file here</p>
-                {file && (
-                  <div>
-                    <strong>Selected File:</strong>
-                    {file.name}
-                  </div>
-                )}
-              </div>
-            )}
-          </Dropzone>
-          {previewSrc ? (
-            isPreviewAvailable ? (
-              <div className="image-preview">
-                <img className="preview-image" src={previewSrc} alt="Preview" />
-              </div>
-            ) : (
-              <div className="preview-message">
-                <p>No preview available for this image</p>
-              </div>
-            )
-          ) : (
-            <div className="preview-message">
-              <p>Image preview will be shown after selection of file</p>
-            </div>
-          )}
-        </div>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
-    </div>
-  );
-};
-
-export default Timetable;
-
-/*
-import React from "react";
-import Dropzone from "react-dropzone";
 import axios from "axios";
 import { useState, useRef } from "react";
 import { API_URL } from "../../utlis/constants";
-import {
-  Row,
-  Col,
-  Button,
-  Form,
-  Navbar,
-  Container,
-  Nav,
-} from "react-bootstrap";
+import { Row, Col, Button, Form, Navbar, Container } from "react-bootstrap";
 /*import "./Notice.css";*/
-/*
-const Notice = (props) => {
+
+const Timetable = (props) => {
   const [file, setFile] = useState(null);
   const [previewSrc, setPreviewSrc] = useState("");
   const [state, setState] = useState({
@@ -216,7 +63,7 @@ const Notice = (props) => {
               "Content-Type": "multipart/form-data",
             },
           });
-          //     props.history.push("/list");
+          props.history.push("/timetablelist");
         } else {
           setErrorMsg("Please select a file to add.");
         }
@@ -232,12 +79,12 @@ const Notice = (props) => {
       <div>
         <Navbar bg="light" variant="light">
           <Container>
-            <Navbar.Brand href="/Notice">Upload Notice</Navbar.Brand>
-            <Navbar.Brand href="/list">Check Notice</Navbar.Brand>
+            <Navbar.Brand href="/timetable">Upload Timetable</Navbar.Brand>
+            <Navbar.Brand href="/timetablelist">Check Timetable</Navbar.Brand>
           </Container>
         </Navbar>
       </div>
-      <h1>Notice Board</h1>
+      <h1>Timetable</h1>
       <Form className="search-form Noticeform" onSubmit={handleOnSubmit}>
         {errorMsg && <p className="errorMsg">{errorMsg}</p>}
         <Row>
@@ -309,4 +156,4 @@ const Notice = (props) => {
     </div>
   );
 };
-export default Notice;*/
+export default Timetable;
